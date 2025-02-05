@@ -1,5 +1,6 @@
 # Python-GRPC-Redis
 
+Github Repo: [Python-GRPC-Redis](https://github.com/vignesh-codes/Python-GRPC-Redis) 
 
 This project implements a scalable and reliable distributed banking system using gRPC for communication, Python for the application logic, and Redis for account storage. The system provides functionalities such as creating accounts, retrieving balances, depositing funds, withdrawing funds, and calculating interest. Concurrency control is managed through a custom read–write lock implementation to ensure data consistency in a multi-threaded environment.
 
