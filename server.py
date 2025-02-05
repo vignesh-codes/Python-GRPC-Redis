@@ -96,9 +96,9 @@ class BankService(bank_pb2_grpc.BankServiceServicer):
             if r.exists(request.account_id):
                 context.set_details("Account already exists.")
                 context.set_code(grpc.StatusCode.ALREADY_EXISTS)
-                return bank_pb2.AccountResponse(account_id=request.account_id, message="Account already exists.")
+                return bank_pb2.AccountResponse(account_id=request.account_id, balance=0.0, message="Account already exists.")
             r.hset(request.account_id, mapping={"type": request.account_type, "balance": 0.0})
-            return bank_pb2.AccountResponse(account_id=request.account_id, message="Account created successfully.")
+            return bank_pb2.AccountResponse(account_id=request.account_id, balance=0.0, message="Account created successfully.")
         finally:
             lock.release_write()
 

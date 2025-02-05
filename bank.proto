@@ -16,6 +16,7 @@ message AccountRequest {
 message AccountResponse {
   string account_id = 1;
   string message = 2;          // Account creation status
+  double balance = 3;
 }
 
 message BalanceResponse {

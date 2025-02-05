@@ -4,7 +4,9 @@ import grpc
 import bank_pb2
 import bank_pb2_grpc
 from concurrent import futures
+from redis import Redis
 
+r = Redis(host="localhost", port=6379, decode_responses=True)
 def run_scenario(account_id, operations):
     """
     Helper function that connects to the server and runs a list of operations.
@@ -15,14 +17,19 @@ def run_scenario(account_id, operations):
         for op in operations:
             try:
                 response = op(stub)
-                print("response is ", response)
-                if response != None :
-                    print(f"Account {account_id}: {response.message}, Balance: {response.balance}")
-                else:
-                    print(f"Response: {response}")
+                # print("response is ", response)
+                print(f"Account {account_id}: {response.message}, Balance: {response.balance}")
+
             except grpc.RpcError as e:
                 print(f"Account {account_id} error: {e.code()}, {e.details()}")
 
+def flush_db():
+    """
+    Helper function to flush the Redis database.
+    """
+    r.flushdb()
+    print("Redis database flushed")
+    return
 def test_successful_flow():
     print("=== Test Successful Flow ===")
     account_id = "100"
@@ -62,7 +69,7 @@ def test_insufficient_funds_withdraw():
     operations = [
         lambda stub: stub.CreateAccount(bank_pb2.AccountRequest(account_id=account_id, account_type="savings")),
         lambda stub: stub.Deposit(bank_pb2.DepositRequest(account_id=account_id, amount=50)),
-        lambda stub: stub.Withdraw(bank_pb2.WithdrawRequest(account_id=account_id, amount=100))
+        lambda stub: stub.Withdraw(bank_pb2.WithdrawRequest(account_id=account_id, amount=100000))
     ]
     run_scenario(account_id, operations)
     print()
@@ -104,6 +111,7 @@ def test_parallel_access():
     print()
 
 def main():
+    flush_db()
     test_successful_flow()
     test_duplicate_account()
     test_negative_deposit()

@@ -10,7 +10,7 @@ def run(account_id):
 
         try:
             # Create account
-            response = stub.CreateAccount(bank_pb2.AccountRequest(account_id=account_id))
+            # response = stub.CreateAccount(bank_pb2.AccountRequest(account_id=account_id))
             # Deposit funds
             response = stub.Deposit(bank_pb2.DepositRequest(account_id=account_id, amount=10000))
             print(f"Account {account_id}: {response.message}, New balance: {response.balance}")

@@ -124,5 +124,69 @@ python client_tests.py
 └── README.md               # This file
 ```
 
-### 6. Acknowledgments
+### 6. Testing Output
+
+```bash
+ python .\client_tests.py
+=== Test Successful Flow ===
+Account 100 error: StatusCode.ALREADY_EXISTS, Account already exists.
+response is  account_id: "100"
+message: "Deposit successful."
+balance: 20479
+
+Account 100: Deposit successful., Balance: 20479.0
+response is  account_id: "100"
+message: "Withdrawal successful."
+balance: 20459
+
+Account 100: Withdrawal successful., Balance: 20459.0
+response is  account_id: "100"
+message: "Interest added."
+balance: 21481.95
+
+Account 100: Interest added., Balance: 21481.95
+response is  account_id: "100"
+balance: 21481.95
+message: "Balance retrieved."
+
+Account 100: Balance retrieved., Balance: 21481.95
+
+=== Test Duplicate Account Creation ===
+Account 101 error: StatusCode.ALREADY_EXISTS, Account already exists.
+Account 101 error: StatusCode.ALREADY_EXISTS, Account already exists.
+
+=== Test Negative Deposit ===
+Account 102 error: StatusCode.ALREADY_EXISTS, Account already exists.
+Account 102 error: StatusCode.INVALID_ARGUMENT, Transaction amount must be positive.
+
+=== Test Insufficient Funds Withdraw ===
+Account 103 error: StatusCode.ALREADY_EXISTS, Account already exists.
+response is  account_id: "103"
+message: "Deposit successful."
+balance: 100
+
+Account 103: Deposit successful., Balance: 100.0
+response is  account_id: "103"
+message: "Withdrawal successful."
+
+Response: account_id: "103"
+message: "Withdrawal successful."
+
+
+=== Test Invalid Interest Rate ===
+Account 104 error: StatusCode.ALREADY_EXISTS, Account already exists.
+response is  account_id: "104"
+message: "Deposit successful."
+balance: 1000
+
+Account 104: Deposit successful., Balance: 1000.0
+Account 104 error: StatusCode.INVALID_ARGUMENT, Annual interest rate must be a positive value.
+
+=== Test Parallel Access ===
+Parallel Access - Account 105: Deposit successful., Balance: 400.0
+Parallel Access - Account 105: Deposit successful., Balance: 500.0
+Parallel Access - Account 105: Deposit successful., Balance: 600.0
+```
+
+### 7. Acknowledgments
 This project was built as part of the CS 4459/9644 assignment to understand scalable and reliable distributed systems using gRPC, Python, and Redis.
